@@ -1,0 +1,21 @@
+import jsonp from '@/common/js/jsonp'
+import { commonParams, options } from './config'
+import http from './http'
+
+export function getBanner() {
+  const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
+
+  const data = Object.assign({}, commonParams, {
+    platform: 'h5',
+    uin: 0,
+    needNewCode: 1
+  })
+
+  return jsonp(url, data, options)
+}
+
+export function getRecommend() {
+  return http({ url: '/getRecommend' }).then(res => {
+    return res.recomPlaylist.data.v_hot
+  })
+}
