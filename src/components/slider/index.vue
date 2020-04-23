@@ -8,11 +8,7 @@
       </div>
     </div>
     <div class="dots">
-      <span
-        v-for="item in sliders.length"
-        :key="item"
-        :class="[item-1 === currentIndex ?'active' : '']"
-      ></span>
+      <span v-for="item in sliders.length" :key="item" :class="{'active':item-1 === currentIndex}"></span>
     </div>
   </div>
 </template>

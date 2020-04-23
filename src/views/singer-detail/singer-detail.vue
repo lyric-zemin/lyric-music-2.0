@@ -1,6 +1,7 @@
 <template>
   <transition name="slider">
     <song-list
+      v-if="singerDetail.length"
       class="singer-detail"
       :name="singer.name"
       :background="singer.avatar"

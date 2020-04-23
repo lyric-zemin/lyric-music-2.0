@@ -1,5 +1,6 @@
 import jsonp from '@/common/js/jsonp'
 import { commonParams, options } from './config'
+import http from './http'
 
 export function getSingerList() {
   const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
@@ -33,4 +34,12 @@ export function getSingerDetail(singerId) {
   })
 
   return jsonp(url, data, options)
+}
+
+export function getLyric(mid) {
+  return http({
+    url: `/getLyric?songmid=${mid}`
+  }).then(res => {
+    return res.lyric
+  })
 }

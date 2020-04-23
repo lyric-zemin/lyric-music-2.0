@@ -28,8 +28,8 @@ export default {
     })
   },
   methods: {
-    scrollToElement(el) {
-      this.scroll.scrollToElement(el)
+    scrollToElement(el, time = 0) {
+      this.scroll.scrollToElement(el, time)
     },
     _initScroll() {
       this.scroll = new BScroll(this.$refs.scroll, {

@@ -8,6 +8,10 @@
       <div class="img" :style="{backgroundImage:bgImage, transform: `scale(${percent})`}">
         <div class="filter"></div>
       </div>
+      <div class="play-wrap">
+        <i class="icon-play"></i>
+        <span>随机播放全部</span>
+      </div>
     </div>
     <div class="music-container">
       <music-list
@@ -71,10 +75,9 @@ export default {
     },
     onScroll(pos) {
       const scrollY = pos.y
-      const top = this.$refs.head.clientHeight
       let percent = 1
       if (scrollY > 0) {
-        percent += scrollY / top
+        percent += scrollY / this.top
       } else {
         percent = 1
       }
@@ -146,6 +149,29 @@ export default {
       line-height: 42px;
       font-size: $font-size-large;
       color: $color-text;
+    }
+    .play-wrap {
+      position: absolute;
+      z-index: 20;
+      bottom: 20px;
+      left: 50%;
+      width: 135px;
+      transform: translateX(-50%);
+      padding: 7px 0;
+      text-align: center;
+      border: 1px solid $color-theme;
+      color: $color-theme;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .icon-play {
+        font-size: $font-size-medium-x;
+      }
+      span {
+        font-size: $font-size-small;
+        margin-left: 6px;
+      }
     }
   }
   .music-container {

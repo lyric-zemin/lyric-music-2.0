@@ -14,7 +14,7 @@
         v-for="(item, index) in list"
         :key="item.title"
         @click="clickShortcut(index)"
-        :class="[currentIndex === index ? 'active': '']"
+        :class="{'active': currentIndex === index}"
       >{{item.title[0]}}</li>
     </ul>
     <div class="list-fixed" :style="fixedStyle">{{fixedTitle}}</div>
