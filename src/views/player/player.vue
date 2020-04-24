@@ -131,9 +131,6 @@ export default {
     open() {
       this.toggleFullScrenn(true)
     },
-    togglePlay() {
-      this.SET_PLAYING(!this.playing)
-    },
     enter(el, done) {
       const { x, y, scale } = this._getPos()
       const cdWrap = this.$refs.cdWrap
@@ -202,19 +199,19 @@ export default {
     }),
     canPlay() {
       this.load = true
-      if (this.playing) {
-        this.$refs.audio.play()
-        this.$refs.lyric.play()
-      }
     },
     error() {
       this.load = true
+    },
+    togglePlay() {
+      this.SET_PLAYING(!this.playing)
+      this.$refs.lyric.togglePlay()
     },
     next() {
       if (!this.load) return
       const len = this.playList.length
       let index = this.currentIndex + 1
-      if (index >= len && this.mode === playMode.loop) {
+      if (index >= len) {
         index = 0
       }
       this.load = false
@@ -249,9 +246,9 @@ export default {
     },
     loop() {
       this.$refs.audio.currentTime = 0
-      if (!this.playing) {
-        this.togglePlay()
-      }
+      this.SET_PLAYING(true)
+      this.$refs.audio.play()
+      this.$refs.lyric.seek(0)
     },
     toggleMode() {
       const mode = (this.mode + 1) % 3
@@ -272,7 +269,9 @@ export default {
       this.setCurrentIndex(index)
     },
     progressBarChange(percent) {
-      this.$refs.audio.currentTime = percent * this.currentSong.duration
+      const time = percent * this.currentSong.duration
+      this.$refs.audio.currentTime = time
+      this.$refs.lyric.seek(time)
     }
   },
   filters: {
@@ -287,6 +286,14 @@ export default {
       if (!this.load) return
       const audio = this.$refs.audio
       playState ? audio.play() : audio.pause()
+    },
+    currentSong() {
+      clearTimeout(this.timer)
+      // 如果不延迟会在歌词stop前就play了
+      this.timer = setTimeout(() => {
+        this.$refs.audio.play()
+        this.$refs.lyric.play()
+      }, 1000)
     }
   }
 }
@@ -294,6 +301,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/common/style/variable';
+@import '@/common/style/mixin';
 
 .normal-player {
   position: fixed;
@@ -339,11 +347,13 @@ export default {
       font-size: $font-size-large;
       color: $color-text;
       line-height: 40px;
+      @include no-wrap;
     }
     .singer {
       font-size: $font-size-medium;
       color: $color-text;
       line-height: 20px;
+      @include no-wrap;
     }
   }
   .middle {
@@ -433,14 +443,17 @@ export default {
   }
   .text {
     flex: 1;
+    overflow: hidden;
     .name {
       font-size: $font-size-medium;
       color: $color-text;
+      @include no-wrap;
     }
     .singer {
       font-size: $font-size-small;
       color: $color-text-l;
       margin-top: 8px;
+      @include no-wrap;
     }
   }
   .control {

@@ -37,6 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/common/style/variable';
+@import '@/common/style/mixin';
 
 .music-list {
   position: relative;
@@ -48,10 +49,12 @@ export default {
         font-size: $font-size-medium;
         color: $color-text;
         margin-bottom: 10px;
+        @include no-wrap;
       }
       .desc {
         font-size: $font-size-medium;
         color: $color-text-d;
+        @include no-wrap;
       }
     }
   }

@@ -14,7 +14,7 @@
 <script>
 import Scroll from '@/components/scroll'
 import { getLyric } from '@/api/singer'
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import LyricParse from 'lyric-parser'
 
 export default {
@@ -25,8 +25,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentSong']),
-    ...mapState(['playing'])
+    ...mapGetters(['currentSong'])
+  },
+  created() {
+    this._getLyric()
   },
   components: {
     Scroll
@@ -34,27 +36,36 @@ export default {
   methods: {
     lyricHandler({ lineNum }) {
       this.currentLine = lineNum
-      const scrollLine = Math.max(lineNum - 5, 0)
-      this.$refs.scroll.scrollToElement(this.$refs.line[scrollLine], 300)
+      const scrollLine = Math.max(lineNum - 2, 0)
+      this.$refs.line &&
+        this.$refs.scroll.scrollToElement(this.$refs.line[scrollLine], 300)
     },
     play() {
-      this.lyric && this.lyric.play()
+      this.currentLyric && this.currentLyric.play()
     },
-    pause() {
-      this.lyric && this.lyric.pause()
+    stop() {
+      this.currentLyric && this.currentLyric.stop()
+    },
+    togglePlay() {
+      this.currentLyric && this.currentLyric.togglePlay()
+    },
+    seek(time) {
+      this.currentLyric && this.currentLyric.seek(time * 1000)
     },
     _getLyric() {
       getLyric(this.currentSong.mid).then(res => {
         if (res) {
-          this.lyric = new LyricParse(res, this.lyricHandler)
-          this.lyrics = this.lyric.lines
+          this.currentLyric = new LyricParse(res, this.lyricHandler)
+          this.lyrics = this.currentLyric.lines
         }
       })
     }
   },
   watch: {
     currentSong() {
+      this.stop()
       this._getLyric()
+      this.currentLine = 0
     }
   }
 }

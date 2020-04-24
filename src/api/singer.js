@@ -38,7 +38,10 @@ export function getSingerDetail(singerId) {
 
 export function getLyric(mid) {
   return http({
-    url: `/getLyric?songmid=${mid}`
+    url: '/getLyric',
+    params: {
+      songmid: mid
+    }
   }).then(res => {
     return res.lyric
   })

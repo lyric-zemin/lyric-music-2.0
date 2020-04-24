@@ -1,6 +1,6 @@
 <template>
   <div class="wrap" ref="wrap">
-    <div class="line">
+    <div class="line" @click="clickBar">
       <span ref="playLine"></span>
     </div>
     <div
@@ -47,6 +47,10 @@ export default {
         this.touch.offset / (this.$refs.wrap.clientWidth - ICON_WIDTH)
       this._emitChange(percent)
     },
+    clickBar(e) {
+      const percent = Math.max((e.offsetX - ICON_WIDTH) / (this.$refs.wrap.clientWidth - ICON_WIDTH), 0)
+      this._emitChange(percent)
+    },
     _offsetWidth(offset) {
       this.$refs.playLine.style.width = offset + ICON_WIDTH / 2 + 'px'
       this.$refs.icon.style.transform = `translate3d(${offset}px, 0 ,0)`
@@ -57,10 +61,12 @@ export default {
   },
   watch: {
     percent(val) {
+      if (this.touch.init || val < 0) return
       const width = this.$refs.wrap.clientWidth - ICON_WIDTH
       const offset = width * val
-      if (this.touch.init) return
-      this._offsetWidth(offset)
+      if (offset >= 0) {
+        this._offsetWidth(offset)
+      }
     }
   }
 }
