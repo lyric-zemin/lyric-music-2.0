@@ -37,8 +37,10 @@ export default {
     lyricHandler({ lineNum }) {
       this.currentLine = lineNum
       const scrollLine = Math.max(lineNum - 2, 0)
-      this.$refs.line &&
-        this.$refs.scroll.scrollToElement(this.$refs.line[scrollLine], 300)
+      if (scrollLine) {
+        this.$refs.line &&
+          this.$refs.scroll.scrollToElement(this.$refs.line[scrollLine], 300)
+      }
     },
     play() {
       this.currentLyric && this.currentLyric.play()
@@ -66,6 +68,8 @@ export default {
       this.stop()
       this._getLyric()
       this.currentLine = 0
+      this.$refs.line &&
+        this.$refs.scroll.scrollToElement(this.$refs.line[0], 300)
     }
   }
 }

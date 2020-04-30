@@ -114,6 +114,7 @@ export default {
       return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
     },
     playModeCls() {
+      /* eslint-disable */
       return this.mode === playMode.sequence
         ? 'icon-sequence'
         : this.mode === playMode.loop
