@@ -6,9 +6,9 @@
     <router-link to="/singer" tag="li">
       <span>歌手</span>
     </router-link>
-    <router-link to="/rank" tag="li">
+    <!-- <router-link to="/rank" tag="li">
       <span>排行</span>
-    </router-link>
+    </router-link> -->
     <router-link to="/search" tag="li">
       <span>搜索</span>
     </router-link>

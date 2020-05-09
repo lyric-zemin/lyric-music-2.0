@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Recommend from '@/views/recommend/recommend.vue'
 
 Vue.use(VueRouter)
 
@@ -11,7 +10,7 @@ const routes = [
   },
   {
     path: '/recommend',
-    component: Recommend
+    component: () => import(/* webpackChunkName: "recommend" */ '@/views/recommend/recommend.vue')
   },
   {
     path: '/singer',

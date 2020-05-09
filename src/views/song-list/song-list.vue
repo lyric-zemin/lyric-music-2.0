@@ -8,7 +8,7 @@
       <div class="img" :style="{backgroundImage:bgImage, transform: `scale(${percent})`}">
         <div class="filter"></div>
       </div>
-      <div class="play-wrap">
+      <div class="play-wrap" @click="randomPlay(list)">
         <i class="icon-play"></i>
         <span>随机播放全部</span>
       </div>
@@ -90,7 +90,7 @@ export default {
         index
       })
     },
-    ...mapActions(['selectPlay']),
+    ...mapActions(['selectPlay', 'randomPlay']),
     _setTop() {
       const top = this.$refs.head.clientHeight
       this.top = top
